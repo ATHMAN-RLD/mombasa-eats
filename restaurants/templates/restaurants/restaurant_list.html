@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Restaurants — Mombasa Eats{% endblock %}
+{% block content %}
+    <h1>Restaurants in Mombasa</h1>
+    {% for restaurant in restaurants %}
+        <div class="restaurant-card">
+            <a href="{% url 'restaurant_detail' restaurant.id %}">{{ restaurant.name }}</a>
+            <p>{{ restaurant.location }}</p>
+        </div>
+    {% empty %}
+        <p>No restaurants available yet.</p>
+    {% endfor %}
+{% endblock %}  
