@@ -58,14 +58,33 @@ def checkout(request):
                 price=entry["item"].price,
                 quantity=entry["quantity"],
             )
+
+        from django.conf import settings as django_settings
+        from payments.mpesa import initiate_stk_push
+        from payments.models import MpesaTransaction
+
+        stk_response = initiate_stk_push(
+            phone_number=request.POST.get("customer_phone"),
+            amount=total,
+            account_reference=f"Order{order.id}",
+            callback_url=django_settings.MPESA_CALLBACK_URL,
+        )
+
+        MpesaTransaction.objects.create(
+            order=order,
+            checkout_request_id=stk_response["CheckoutRequestID"],
+            merchant_request_id=stk_response["MerchantRequestID"],
+            phone_number=request.POST.get("customer_phone"),
+            amount=total,
+        )
+
         request.session["cart"] = {}
         request.session.modified = True
-        messages.success(request, f"Order #{order.id} placed successfully!")
-        return redirect("order_confirmation", order_id=order.id)
+        return redirect("order_confirmation", order_id=order.id) 
 
     return render(request, "orders/checkout.html", {"cart_items": cart_items, "total": total})
 
 
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    return render(request, "orders/order_confirmation.html", {"order": order})  
+    return render(request, "orders/order_confirmation.html", {"order": order})   
