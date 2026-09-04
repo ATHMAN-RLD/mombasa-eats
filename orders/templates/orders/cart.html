@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Your Cart — Mombasa Eats{% endblock %}
+{% block content %}
+    <h1>Your Cart</h1>
+    {% for entry in cart_items %}
+        <div class="restaurant-card">
+            <strong>{{ entry.item.name }}</strong> x {{ entry.quantity }}
+            <p class="price">KES {{ entry.subtotal }}</p>
+        </div>
+    {% empty %}
+        <p>Your cart is empty.</p>
+    {% endfor %}
+    {% if cart_items %}
+        <h2>Total: KES {{ total }}</h2>
+    {% endif %}
+{% endblock %}  
