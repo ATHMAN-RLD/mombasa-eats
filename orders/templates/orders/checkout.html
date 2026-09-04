@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Checkout — Mombasa Eats{% endblock %}
+{% block content %}
+    <h1>Checkout</h1>
+    <h2>Order Summary</h2>
+    {% for entry in cart_items %}
+        <div class="restaurant-card">
+            <strong>{{ entry.item.name }}</strong> x {{ entry.quantity }}
+            <p class="price">KES {{ entry.subtotal }}</p>
+        </div>
+    {% endfor %}
+    <h2>Total: KES {{ total }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <p>
+            <label>Your Name</label><br>
+            <input type="text" name="customer_name" required>
+        </p>
+        <p>
+            <label>Phone Number</label><br>
+            <input type="tel" name="customer_phone" placeholder="07XXXXXXXX" required>
+        </p>
+        <p>
+            <label>Delivery Address</label><br>
+            <input type="text" name="delivery_address" placeholder="e.g. Nyali, near XYZ" required>
+        </p>
+        <button type="submit">Place Order</button>
+    </form>
+{% endblock %}  

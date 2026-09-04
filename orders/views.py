@@ -21,3 +21,51 @@ def view_cart(request):
         total += subtotal
         cart_items.append({"item": menu_item, "quantity": quantity, "subtotal": subtotal})
     return render(request, "orders/cart.html", {"cart_items": cart_items, "total": total})  
+
+from django.contrib import messages
+from restaurants.models import Restaurant
+from .models import Order, OrderItem
+
+
+def checkout(request):
+    cart = request.session.get("cart", {})
+    if not cart:
+        return redirect("view_cart")
+
+    cart_items = []
+    total = 0
+    restaurant = None
+    for item_id_str, quantity in cart.items():
+        menu_item = get_object_or_404(MenuItem, id=int(item_id_str))
+        restaurant = menu_item.restaurant
+        subtotal = menu_item.price * quantity
+        total += subtotal
+        cart_items.append({"item": menu_item, "quantity": quantity, "subtotal": subtotal})
+
+    if request.method == "POST":
+        order = Order.objects.create(
+            restaurant=restaurant,
+            customer_name=request.POST.get("customer_name"),
+            customer_phone=request.POST.get("customer_phone"),
+            delivery_address=request.POST.get("delivery_address"),
+            total_amount=total,
+        )
+        for entry in cart_items:
+            OrderItem.objects.create(
+                order=order,
+                menu_item=entry["item"],
+                item_name=entry["item"].name,
+                price=entry["item"].price,
+                quantity=entry["quantity"],
+            )
+        request.session["cart"] = {}
+        request.session.modified = True
+        messages.success(request, f"Order #{order.id} placed successfully!")
+        return redirect("order_confirmation", order_id=order.id)
+
+    return render(request, "orders/checkout.html", {"cart_items": cart_items, "total": total})
+
+
+def order_confirmation(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    return render(request, "orders/order_confirmation.html", {"order": order})  

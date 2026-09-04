@@ -12,5 +12,6 @@
     {% endfor %}
     {% if cart_items %}
         <h2>Total: KES {{ total }}</h2>
+        <a href="{% url 'checkout' %}">Proceed to Checkout</a>
     {% endif %}
 {% endblock %}  

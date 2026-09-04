@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Order Confirmed — Mombasa Eats{% endblock %}
+{% block content %}
+    <h1>Order #{{ order.id }} Confirmed</h1>
+    <p>Thank you, {{ order.customer_name }}!</p>
+    <p>Status: <strong>{{ order.status|title }}</strong></p>
+    <p>Delivery to: {{ order.delivery_address }}</p>
+    <p class="price">Total: KES {{ order.total_amount }}</p>
+{% endblock %}  
