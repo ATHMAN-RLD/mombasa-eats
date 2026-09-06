@@ -13,6 +13,9 @@ class Order(models.Model):
     ]
 
     restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, related_name="orders")
+    assigned_rider = models.ForeignKey(
+        "accounts.Rider", on_delete=models.SET_NULL, null=True, blank=True, related_name="assigned_orders"
+    )
     customer_name = models.CharField(max_length=200)
     customer_phone = models.CharField(max_length=15)
     delivery_address = models.CharField(max_length=255)
@@ -35,4 +38,4 @@ class OrderItem(models.Model):
         return self.price * self.quantity
 
     def __str__(self):
-        return f"{self.quantity} x {self.item_name}"   
+        return f"{self.quantity} x {self.item_name}"  

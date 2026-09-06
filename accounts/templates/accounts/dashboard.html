@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Rider Dashboard — Mombasa Eats{% endblock %}
+{% block content %}
+    <h1>My Deliveries</h1>
+    <p><a href="{% url 'logout' %}">Log Out</a></p>
+    {% for order in orders %}
+        <div class="restaurant-card">
+            <strong>Order #{{ order.id }}</strong> — {{ order.customer_name }}
+            <p>{{ order.delivery_address }}</p>
+            <p>Status: <strong>{{ order.get_status_display }}</strong></p>
+            {% if order.status == "paid" or order.status == "preparing" or order.status == "picked_up" or order.status == "en_route" %}
+                <form method="post" action="{% url 'advance_order_status' order.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Mark as Next Stage</button>
+                </form>
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No active deliveries assigned to you.</p>
+    {% endfor %}
+{% endblock %} 

@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'restaurants',
     'orders',  
-    'payments',  
+    'payments',
+    'accounts',   
 ]
 
 MIDDLEWARE = [
