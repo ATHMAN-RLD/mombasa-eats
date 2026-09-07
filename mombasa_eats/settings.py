@@ -27,7 +27,7 @@ SECRET_KEY = 'django-insecure-s64^8dp%a5s70+-90-4(&2#(&w^d*oub%8o!w)zxhike#ilruf
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "deception-caption-monopoly.ngrok-free.dev"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", "testserver", "deception-caption-monopoly.ngrok-free.dev"]
 
 import os
 
@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'restaurants',
     'orders',  
     'payments',
-    'accounts',   
+    'accounts', 
+    'tracking',    
 ]
 
 MIDDLEWARE = [
