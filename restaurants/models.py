@@ -3,6 +3,7 @@ from django.db import models
 
 class Restaurant(models.Model):
     name = models.CharField(max_length=200)
+    tagline = models.CharField(max_length=200, blank=True, help_text="A short, evocative line about this restaurant")
     location = models.CharField(max_length=200, help_text="e.g. Nyali, Mombasa")
     latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
     longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)

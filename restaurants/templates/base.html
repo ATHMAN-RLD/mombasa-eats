@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>{% block title %}Mombasa Eats{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --ocean: #1B3A4B;
@@ -39,22 +39,59 @@
             font-size: 1.3rem;
         }
         main {
-            max-width: 640px;
-            margin: 2.5rem auto;
-            padding: 0 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+        .hero {
+            text-align: center;
+            padding: 3.5rem 1.5rem 2.5rem;
+        }
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: #5c5346;
+            max-width: 480px;
+            margin: 0 auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.25rem;
         }
         .restaurant-card {
             background: #fff;
             border-bottom: 3px solid var(--saffron);
             border-radius: 4px;
             padding: 1.1rem 1.3rem;
-            margin-bottom: 1rem;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .restaurant-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(27, 58, 75, 0.15);
+        }
+        .restaurant-card img {
+            width: 100%;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
         }
         .restaurant-card a {
             color: var(--ocean);
             text-decoration: none;
             font-weight: 600;
             font-size: 1.15rem;
+        }
+        .tagline {
+            font-family: 'Fraunces', serif;
+            font-style: italic;
+            color: var(--henna);
+            font-size: 1.1rem;
         }
         .price {
             color: var(--henna);
@@ -70,8 +107,10 @@
             font-family: 'Inter', sans-serif;
             font-weight: 600;
             cursor: pointer;
+            transition: transform 0.1s ease, opacity 0.15s ease;
         }
-        button:hover { opacity: 0.9; }
+        button:hover, input[type="submit"]:hover { opacity: 0.9; }
+        button:active, input[type="submit"]:active { transform: scale(0.97); }
         input[type="text"], input[type="tel"] {
             font-family: 'Inter', sans-serif;
             padding: 0.5rem;
@@ -91,4 +130,4 @@
     </main>
     {% block extra_js %}{% endblock %}
 </body>
-</html>   
+</html>  

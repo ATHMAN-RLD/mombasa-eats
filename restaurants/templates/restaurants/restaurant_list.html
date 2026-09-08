@@ -1,16 +1,26 @@
 {% extends "base.html" %}
 {% block title %}Restaurants — Mombasa Eats{% endblock %}
 {% block content %}
-    <h1>Restaurants in Mombasa</h1>
-    {% for restaurant in restaurants %}
-        <div class="restaurant-card">
-            {% if restaurant.image %}
-                <img src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}" style="width: 100%; border-radius: 4px; margin-bottom: 0.75rem;">
-            {% endif %}
-            <a href="{% url 'restaurant_detail' restaurant.id %}">{{ restaurant.name }}</a>
-            <p>{{ restaurant.location }}</p>
-        </div>
-    {% empty %}
-        <p>No restaurants available yet.</p>
-    {% endfor %}
+    <div class="hero">
+        <h1>Mombasa's flavors, delivered.</h1>
+        <p>From spiced biryanis to fresh coastal grills — order from the city's best kitchens, tracked live to your door.</p>
+    </div>
+    <div class="grid">
+        {% for restaurant in restaurants %}
+            <div class="restaurant-card">
+                {% if restaurant.image %}
+                    <a href="{% url 'restaurant_detail' restaurant.id %}">
+                        <img src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}">
+                    </a>
+                {% endif %}
+                <a href="{% url 'restaurant_detail' restaurant.id %}">{{ restaurant.name }}</a>
+                {% if restaurant.tagline %}
+                    <p class="tagline">{{ restaurant.tagline }}</p>
+                {% endif %}
+                <p>{{ restaurant.location }}</p>
+            </div>
+        {% empty %}
+            <p>No restaurants available yet.</p>
+        {% endfor %}
+    </div>
 {% endblock %}  
