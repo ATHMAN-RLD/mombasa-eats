@@ -60,11 +60,12 @@ def checkout(request):
             )
 
         from django.conf import settings as django_settings
-        from payments.mpesa import initiate_stk_push
-        from payments.models import MpesaTransaction
+        from payments.mpesa import initiate_stk_push, format_phone_number
+        from payments.models import MpesaTransaction 
 
         stk_response = initiate_stk_push(
-            phone_number=request.POST.get("customer_phone"),
+            
+            phone_number=format_phone_number(request.POST.get("customer_phone")),
             amount=total,
             account_reference=f"Order{order.id}",
             callback_url=django_settings.MPESA_CALLBACK_URL,

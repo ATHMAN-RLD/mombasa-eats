@@ -14,6 +14,17 @@ def get_access_token():
     data = response.json()
     return data["access_token"]  
 
+def format_phone_number(phone):
+    phone = phone.strip().replace(" ", "").replace("-", "")
+    if phone.startswith("0"):
+        return "254" + phone[1:]
+    if phone.startswith("+254"):
+        return phone[1:]
+    if phone.startswith("254"):
+        return phone
+    return phone 
+
+
 import base64
 from datetime import datetime
 
