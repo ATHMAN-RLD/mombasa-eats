@@ -1,8 +1,35 @@
 {% extends "base.html" %}
-{% block title %}Rider Dashboard — Mombasa Eats{% endblock %}
+{% block title %}Rider Dashboard — Mombasa Eats
+{% block extra_js %}
+<script>
+function sendLocation(position) {
+    fetch("{% url 'update_location' %}", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        })
+    });
+}
+
+function trackLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(sendLocation);
+    }
+}
+
+trackLocation();
+setInterval(trackLocation, 8000);
+</script>
+{% endblock %}
+{% endblock %}
 {% block content %}
     <h1>My Deliveries</h1>
-    <p><a href="{% url 'logout' %}">Log Out</a></p>
+    <form method="post" action="{% url 'logout' %}" style="display: inline;">
+    {% csrf_token %}
+    <button type="submit">Log Out</button>
+</form>
     {% for order in orders %}
         <div class="restaurant-card">
             <strong>Order #{{ order.id }}</strong> — {{ order.customer_name }}
