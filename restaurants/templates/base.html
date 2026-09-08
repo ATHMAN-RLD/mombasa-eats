@@ -81,11 +81,16 @@
             aspect-ratio: 4 / 3;
             object-fit: cover;
         }
-        .restaurant-card a {
+                .restaurant-card a {
             color: var(--ocean);
             text-decoration: none;
             font-weight: 600;
             font-size: 1.15rem;
+            transition: color 0.15s ease;
+        }
+        .restaurant-card a:hover {
+            text-decoration: underline;
+            color: var(--henna);
         }
         .tagline {
             font-family: 'Fraunces', serif;
