@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block title %}Your Cart — Mombasa Eats{% endblock %}
 {% block content %}
+{% for message in messages %}
+    <p style="color: red;">{{ message }}</p>
+{% endfor %} 
     <h1>Your Cart</h1>
     {% for entry in cart_items %}
         <div class="restaurant-card">
@@ -13,5 +16,6 @@
     {% if cart_items %}
         <h2>Total: KES {{ total }}</h2>
         <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+        <a href="{% url 'clear_cart' %}">Clear Cart</a> 
     {% endif %}
 {% endblock %}  

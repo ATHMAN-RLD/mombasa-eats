@@ -1,9 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 from restaurants.models import MenuItem
+from .models import Order, OrderItem
 
 
 def add_to_cart(request, item_id):
     cart = request.session.get("cart", {})
+    new_item = get_object_or_404(MenuItem, id=item_id)
+
+    if cart:
+        existing_item_id = int(next(iter(cart)))
+        existing_item = get_object_or_404(MenuItem, id=existing_item_id)
+        if existing_item.restaurant_id != new_item.restaurant_id:
+            messages.error(request, "Your cart has items from another restaurant. Clear your cart first to order from here.")
+            return redirect("view_cart")
+
     item_id_str = str(item_id)
     cart[item_id_str] = cart.get(item_id_str, 0) + 1
     request.session["cart"] = cart
@@ -20,11 +31,13 @@ def view_cart(request):
         subtotal = menu_item.price * quantity
         total += subtotal
         cart_items.append({"item": menu_item, "quantity": quantity, "subtotal": subtotal})
-    return render(request, "orders/cart.html", {"cart_items": cart_items, "total": total})  
+    return render(request, "orders/cart.html", {"cart_items": cart_items, "total": total})
 
-from django.contrib import messages
-from restaurants.models import Restaurant
-from .models import Order, OrderItem
+
+def clear_cart(request):
+    request.session["cart"] = {}
+    request.session.modified = True
+    return redirect("view_cart")
 
 
 def checkout(request):
@@ -61,10 +74,9 @@ def checkout(request):
 
         from django.conf import settings as django_settings
         from payments.mpesa import initiate_stk_push, format_phone_number
-        from payments.models import MpesaTransaction 
+        from payments.models import MpesaTransaction
 
         stk_response = initiate_stk_push(
-            
             phone_number=format_phone_number(request.POST.get("customer_phone")),
             amount=total,
             account_reference=f"Order{order.id}",
@@ -75,17 +87,18 @@ def checkout(request):
             order=order,
             checkout_request_id=stk_response["CheckoutRequestID"],
             merchant_request_id=stk_response["MerchantRequestID"],
-            phone_number=request.POST.get("customer_phone"),
+            phone_number=format_phone_number(request.POST.get("customer_phone")),
             amount=total,
         )
 
         request.session["cart"] = {}
         request.session.modified = True
-        return redirect("order_confirmation", order_id=order.id) 
+        messages.success(request, f"Order #{order.id} placed successfully!")
+        return redirect("order_confirmation", order_id=order.id)
 
     return render(request, "orders/checkout.html", {"cart_items": cart_items, "total": total})
 
 
 def order_confirmation(request, order_id):
     order = get_object_or_404(Order, id=order_id)
-    return render(request, "orders/order_confirmation.html", {"order": order})   
+    return render(request, "orders/order_confirmation.html", {"order": order})  
