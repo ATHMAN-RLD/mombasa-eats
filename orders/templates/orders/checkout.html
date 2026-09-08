@@ -1,30 +1,37 @@
 {% extends "base.html" %}
 {% block title %}Checkout — Mombasa Eats{% endblock %}
 {% block content %}
-    <h1>Checkout</h1>
-    <h2>Order Summary</h2>
+    <div class="hero" style="padding-top: 2rem; padding-bottom: 1rem;">
+        <h1>Checkout</h1>
+    </div>
+    <h2 style="font-size: 1.3rem;">Order Summary</h2>
     {% for entry in cart_items %}
-        <div class="restaurant-card">
-            <strong>{{ entry.item.name }}</strong> x {{ entry.quantity }}
-            <p class="price">KES {{ entry.subtotal }}</p>
+        <div class="restaurant-card" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 0.75rem;">
+            {% if entry.item.image %}
+                <img src="{{ entry.item.image.url }}" alt="{{ entry.item.name }}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
+            {% endif %}
+            <div style="flex-grow: 1;">
+                <strong>{{ entry.item.name }}</strong> <span style="color: #5c5346;">x {{ entry.quantity }}</span>
+                <p class="price" style="margin: 0.2rem 0 0;">KES {{ entry.subtotal }}</p>
+            </div>
         </div>
     {% endfor %}
-    <h2>Total: KES {{ total }}</h2>
+    <h2 style="text-align: right; margin-top: 1.5rem;">Total: KES {{ total }}</h2>
 
-    <form method="post">
+    <form method="post" style="background: #fff; padding: 1.5rem; border-radius: 6px; margin-top: 1.5rem;">
         {% csrf_token %}
         <p>
-            <label>Your Name</label><br>
-            <input type="text" name="customer_name" required>
+            <label style="font-weight: 600;">Your Name</label><br>
+            <input type="text" name="customer_name" style="max-width: 100%;" required>
         </p>
         <p>
-            <label>Phone Number</label><br>
-            <input type="tel" name="customer_phone" placeholder="07XXXXXXXX" required>
+            <label style="font-weight: 600;">Phone Number</label><br>
+            <input type="tel" name="customer_phone" placeholder="07XXXXXXXX" style="max-width: 100%;" required>
         </p>
         <p>
-            <label>Delivery Address</label><br>
-            <input type="text" name="delivery_address" placeholder="e.g. Nyali, near XYZ" required>
+            <label style="font-weight: 600;">Delivery Address</label><br>
+            <input type="text" name="delivery_address" placeholder="e.g. Nyali, near XYZ" style="max-width: 100%;" required>
         </p>
-        <button type="submit">Place Order</button>
+        <button type="submit" style="width: 100%;">Place Order</button>
     </form>
-{% endblock %}  
+{% endblock %} 

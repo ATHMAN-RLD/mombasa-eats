@@ -1,21 +1,32 @@
 {% extends "base.html" %}
 {% block title %}Your Cart — Mombasa Eats{% endblock %}
 {% block content %}
-{% for message in messages %}
-    <p style="color: red;">{{ message }}</p>
-{% endfor %} 
-    <h1>Your Cart</h1>
+    <div class="hero" style="padding-top: 2rem; padding-bottom: 1rem;">
+        <h1>Your Cart</h1>
+    </div>
+    {% for message in messages %}
+        <p style="color: var(--henna); text-align: center; font-weight: 600;">{{ message }}</p>
+    {% endfor %}
     {% for entry in cart_items %}
-        <div class="restaurant-card">
-            <strong>{{ entry.item.name }}</strong> x {{ entry.quantity }}
-            <p class="price">KES {{ entry.subtotal }}</p>
+        <div class="restaurant-card" style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+            {% if entry.item.image %}
+                <img src="{{ entry.item.image.url }}" alt="{{ entry.item.name }}" style="width: 80px; height: 80px; object-fit: cover; border-radius: 4px; flex-shrink: 0;">
+            {% endif %}
+            <div style="flex-grow: 1;">
+                <strong>{{ entry.item.name }}</strong> <span style="color: #5c5346;">x {{ entry.quantity }}</span>
+                <p class="price" style="margin: 0.2rem 0 0;">KES {{ entry.subtotal }}</p>
+            </div>
         </div>
     {% empty %}
-        <p>Your cart is empty.</p>
+        <p style="text-align: center;">Your cart is empty.</p>
     {% endfor %}
     {% if cart_items %}
-        <h2>Total: KES {{ total }}</h2>
-        <a href="{% url 'checkout' %}">Proceed to Checkout</a>
-        <a href="{% url 'clear_cart' %}">Clear Cart</a> 
+        <div style="border-top: 2px solid var(--ocean); margin-top: 1.5rem; padding-top: 1.5rem; text-align: center;">
+            <h2>Total: KES {{ total }}</h2>
+            <p>
+                <a href="{% url 'checkout' %}"><button type="button" onclick="window.location.href='{% url 'checkout' %}'">Proceed to Checkout</button></a>
+            </p>
+            <p><a href="{% url 'clear_cart' %}">Clear Cart</a></p>
+        </div>
     {% endif %}
-{% endblock %}  
+{% endblock %} 
