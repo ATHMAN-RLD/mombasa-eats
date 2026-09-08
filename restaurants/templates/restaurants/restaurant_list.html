@@ -4,6 +4,9 @@
     <h1>Restaurants in Mombasa</h1>
     {% for restaurant in restaurants %}
         <div class="restaurant-card">
+            {% if restaurant.image %}
+                <img src="{{ restaurant.image.url }}" alt="{{ restaurant.name }}" style="width: 100%; border-radius: 4px; margin-bottom: 0.75rem;">
+            {% endif %}
             <a href="{% url 'restaurant_detail' restaurant.id %}">{{ restaurant.name }}</a>
             <p>{{ restaurant.location }}</p>
         </div>
