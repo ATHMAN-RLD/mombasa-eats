@@ -55,4 +55,4 @@ This project currently runs against Safaricom's Daraja **sandbox** environment �
 
 ## Author
 
-Built by [Omari](https://github.com/ATHMAN-RLD) as a rebuild of an earlier final-year project — this version adds working M-Pesa integration and live GPS tracking that the original attempt couldn't complete. 
+Built by [Omari](https://github.com/ATHMAN-RLD) as a rebuild of an earlier final-year project — this version adds working M-Pesa integration and live GPS tracking that the original attempt couldn't complete.  
