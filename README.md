@@ -2,6 +2,16 @@
 
 A full-stack food ordering and delivery platform for Mombasa, Kenya — built with Django, M-Pesa Daraja payments, and live GPS delivery tracking.
 
+## Screenshots
+
+| Restaurants | Menu |
+|---|---|
+| ![Restaurant listing](docs/screenshots/restaurants.png) | ![Restaurant menu](docs/screenshots/restaurant-menu.png) |
+
+| Cart | Rider Dashboard |
+|---|---|
+| ![Cart](docs/screenshots/cart.png) | ![Rider dashboard](docs/screenshots/rider-dashboard.png) |
+
 ## Features
 
 - **Multi-restaurant ordering** — browse restaurants and menus, add items to a session-based cart
@@ -40,19 +50,3 @@ A full-stack food ordering and delivery platform for Mombasa, Kenya — built wi
 ```
 
 3. Create a `.env` file in the project root with your own M-Pesa Daraja sandbox credentials:  
-
-
-4. Run migrations and start the server:
-```bash
-   python manage.py migrate
-   python manage.py createsuperuser
-   python manage.py runserver
-```
-
-## Notes
-
-This project currently runs against Safaricom's Daraja **sandbox** environment — payments are simulated, not real transactions. Rider assignment is currently manual (via Django admin), and delivery status is updated by the rider through their dashboard.
-
-## Author
-
-Built by [Omari](https://github.com/ATHMAN-RLD) as a rebuild of an earlier final-year project — this version adds working M-Pesa integration and live GPS tracking that the original attempt couldn't complete.  
